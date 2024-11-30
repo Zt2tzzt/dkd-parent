@@ -52,7 +52,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: druid
+    active: druid, dev
   # 文件上传
   servlet:
     multipart:
@@ -74,7 +74,7 @@ spring:
     # 数据库索引
     database: 0
     # 密码
-    password: root
+    password: ${spring.redis.password}
     # 连接超时时间
     timeout: 10s
     lettuce:
