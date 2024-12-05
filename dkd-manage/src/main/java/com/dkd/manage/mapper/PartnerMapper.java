@@ -2,6 +2,7 @@ package com.dkd.manage.mapper;
 
 import java.util.List;
 import com.dkd.manage.domain.Partner;
+import com.dkd.manage.domain.vo.PartnerVO;
 
 /**
  * 合作商管理Mapper接口
@@ -58,4 +59,11 @@ public interface PartnerMapper
      * @return 结果
      */
     public int deletePartnerByIds(Long[] ids);
+
+    /**
+     * 此方法用于：查询合作商列表
+     * @param partner partner
+     * @return List<PartnerVO>
+     */
+    List<PartnerVO> selectPartnerVOList(Partner partner);
 }

@@ -8,7 +8,7 @@
 
 - 可以把它想象成一个超大的社交网络。
 - 这个网络里的成员不是人类，而是各种物品。它们可以通过互联网互相交流信息
-  - 比如，冰箱、洗衣机、汽车，
+    - 比如，冰箱、洗衣机、汽车，
 
 物联网的神奇之处，在于它能够让这些物品变得更加“聪明”。
 
@@ -29,13 +29,13 @@
 与传统售货机相比，智能售货机的优势在于其自我管理能力，表现如下：
 
 - **物联网技术**：不管售货机在哪，管理人员都能通过远程终端（电脑或手机）知道它的状态。
-  - 比如：哪些商品快卖完了，哪些需要补货。
+    - 比如：哪些商品快卖完了，哪些需要补货。
 - **智能分析与推荐**：能分析顾客的喜好，找到用户最想要的东西，推荐商品。
 - **人员设备绑定管理**：每个售货机都有自己的专属“保镖”，一旦售货机出现问题，这些“保镖”就能立刻出现，迅速解决问题，让售货机始终保持最佳状态。
 - **移动支付**：支持各种移动支付方式，一扫即付，既方便又安全，让购物体验更加流畅。
 - **线上线下融合（OMO）**：把线上和线下完美结合起来：顾客可以：
-  - 在线上浏览商品，然后直接在售货机上购买；
-  - 或者在售货机上看到喜欢的商品后，直接在线上下单。
+    - 在线上浏览商品，然后直接在售货机上购买；
+    - 或者在售货机上看到喜欢的商品后，直接在线上下单。
 
 ### 2.1.售货机术语
 
@@ -186,14 +186,13 @@ AI 大模型，通常指的是具有大量参数的深度学习模型，经过�
 ### 8.1.Prompt 的组成
 
 - **角色**：给 AI 定义一个最匹配任务的角色；
-  - 比如：「你是一位软件工程师」「你是一位小学老师」；
+    - 比如：「你是一位软件工程师」「你是一位小学老师」；
 - **指示**：对任务进行描述；
 - **上下文**：给出与任务相关的其它背景信息（尤其在多轮交互中）；
-- **例子**：必要时给出举例，
-  - [实践证明其对输出正确性有帮助]
+- **例子**：必要时给出举例（实践证明其对输出正确性有帮助）。
 - **输入**：任务的输入信息；在提示词中明确的标识出输入；
 - **输出**：输出的格式描述，以便后继模块自动解析模型的输出结果；
-  - 比如（JSON、Java）
+    - 比如（JSON、Java）
 
 ### 8.2.Prompt 案例
 
@@ -235,37 +234,44 @@ AI 大模型，通常指的是具有大量参数的深度学习模型，经过�
 适用人群：小白学员、中级程序员
 ```
 
+- 角色、指示放在第一行。
+- 输入、输出放在后面；
+- 上下文、例子可以省略。
+
 输出：
 
 ```mysql
 -- 创建课程管理表 tb_course
-CREATE TABLE tb_course (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '主键，课程ID',
-    course_code VARCHAR(50) NOT NULL COMMENT '课程编码',
-    course_subject VARCHAR(50) NOT NULL COMMENT '课程学科',
-    course_name VARCHAR(100) NOT NULL COMMENT '课程名称',
-    course_price INT NOT NULL COMMENT '课程价格（单位：元）',
-    target_audience VARCHAR(50) NOT NULL COMMENT '适用人群',
+CREATE TABLE tb_course
+(
+    id                 INT AUTO_INCREMENT PRIMARY KEY COMMENT '主键，课程ID',
+    course_code        VARCHAR(50)  NOT NULL COMMENT '课程编码',
+    course_subject     VARCHAR(50)  NOT NULL COMMENT '课程学科',
+    course_name        VARCHAR(100) NOT NULL COMMENT '课程名称',
+    course_price       INT          NOT NULL COMMENT '课程价格（单位：元）',
+    target_audience    VARCHAR(50)  NOT NULL COMMENT '适用人群',
     course_description TEXT COMMENT '课程介绍',
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-    create_by VARCHAR(50) COMMENT '创建人',
-    update_by VARCHAR(50) COMMENT '修改人',
-    remark TEXT COMMENT '备注'
-) COMMENT='课程管理表';
+    create_time        DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time        DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    create_by          VARCHAR(50) COMMENT '创建人',
+    update_by          VARCHAR(50) COMMENT '修改人',
+    remark             TEXT COMMENT '备注'
+) COMMENT ='课程管理表';
 
 -- 插入一些示例数据
-INSERT INTO tb_course (course_code, course_subject, course_name, course_price, target_audience, course_description, create_by, remark)
-VALUES
-    ('JAVA101', 'Java', 'Java基础入门', 199, '小白学员', '从零开始学习Java编程基础', 'admin', '适合零基础学员'),
-    ('AI201', '人工智能', '人工智能算法实践', 299, '中级程序员', '深度学习与机器学习实践课程', 'admin', '推荐有一定编程经验的学员'),
-    ('BD301', '大数据', '大数据开发实战', 399, '中级程序员', '涵盖Hadoop、Spark等大数据技术', 'admin', '适合需要大数据技术进阶的学员');
+INSERT INTO tb_course (course_code, course_subject, course_name, course_price, target_audience, course_description,
+                       create_by, remark)
+VALUES ('JAVA101', 'Java', 'Java基础入门', 199, '小白学员', '从零开始学习Java编程基础', 'admin', '适合零基础学员'),
+       ('AI201', '人工智能', '人工智能算法实践', 299, '中级程序员', '深度学习与机器学习实践课程', 'admin',
+        '推荐有一定编程经验的学员'),
+       ('BD301', '大数据', '大数据开发实战', 399, '中级程序员', '涵盖Hadoop、Spark等大数据技术', 'admin',
+        '适合需要大数据技术进阶的学员');
 
 ```
 
 #### 8.3.2.生成数据库文档
 
-提示词：
+Prompt 提示词工程输入：
 
 ```markdown
 你是一个软件工程师，现在要根据数据库的 sql 脚本，编写数据库说明文档，sql 脚本如下：
@@ -286,12 +292,12 @@ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='课程管理表';
 
 输出要求是：
-1，每个表以及每个表的字段都要详细说明，包括，字段名称、类型、作用
-2，使用 markdown 的输出格式，字段的描述需要使用表格展示
-3，如果表之间有关系，需要描述清楚表之间的关系
+1，每个表以及每个表的字段都要详细说明，包括，字段名称、类型、作用。
+2，使用 markdown 的输出格式，字段的描述需要使用表格展示。
+3，如果表之间有关系，需要描述清楚表之间的关系。
 ```
 
-输出：
+AIGC 输出：
 
 ```markdown
 表名：tb_course （课程管理表）
@@ -319,75 +325,76 @@ remark VARCHAR(255) 备注信息，用于记录额外说明。
 代码生成，算是比较常规的方案，用的也比较多，分为了几种情况
 
 - 给出数据库表，生成代码（项目中常见）
-  - 给出表结构的 DDL，可以输出这个表的增、删、改、查的所有代码；
-  - 给出表结构的 DLL，可以输出增、删、改、查的接口文档；
+    - 给出表结构的 DDL，可以输出这个表的增、删、改、查的所有代码；
+    - 给出表结构的 DLL，可以输出增、删、改、查的接口文档；
 - 补全代码
-  - 例 1：给出实体类，生成 getter、setter、toString、构造方法等等；
-  - 例 2：给出一个 controller，帮助编写 swagger 注解等；
+    - 例 1：给出实体类，生成 getter、setter、toString、构造方法等等；
+    - 例 2：给出一个 controller，帮助编写 swagger 注解等；
 - 提取结构（无含金量，费时间的编程）
-  - 例 1：根据接口文档，提取 DTO 类或者 VO 类；
+    - 例 1：根据接口文档，提取 DTO 类或者 VO 类；
 
 #### 8.3.4.生成代码流程图
 
 有一些比较复杂的业务流程，往往需要画出流程图，现在就可以使用 ai 协助我们画流程图
 
-输入：
+Prompt 提示词工程输入：
 
-```markdown
 你是一个软件工程师，为了方便理解代码执行流程，需要给出代码执行的流程图，代码如下：
+
+```java
 // 创建工单
 @Transactional
 @Override
 public int insertTaskDto(TaskDto taskDto) {
 //1. 查询售货机是否存在
-VendingMachine vm = vendingMachineService.selectVendingMachineByInnerCode(taskDto.getInnerCode());
-if (vm == null) {
-throw new ServiceException("设备不存在");
-}
+    VendingMachine vm = vendingMachineService.selectVendingMachineByInnerCode(taskDto.getInnerCode());
+    if (vm == null) {
+        throw new ServiceException("设备不存在");
+    }
 //2. 校验售货机状态与工单类型是否相符
-checkCreateTask(vm.getVmStatus(), taskDto.getProductTypeId());
+    checkCreateTask(vm.getVmStatus(), taskDto.getProductTypeId());
 //3. 校验这台设备是否有未完成的同类型工单，如果存在则不能创建
-hasTask(taskDto.getInnerCode(), taskDto.getProductTypeId());
+    hasTask(taskDto.getInnerCode(), taskDto.getProductTypeId());
 //4. 校验员工是否存在
-Emp emp = empService.selectEmpById(taskDto.getUserId());
-if (emp == null) {
-throw new ServiceException("员工不存在");
-}
+    Emp emp = empService.selectEmpById(taskDto.getUserId());
+    if (emp == null) {
+        throw new ServiceException("员工不存在");
+    }
 // 5. 校验非同区域下的工作人员不能接受工单
-if (emp.getRegionId() != vm.getRegionId()) {
-throw new ServiceException("非同区域下的工作人员不能接受工单");
-}
+    if (emp.getRegionId() != vm.getRegionId()) {
+        throw new ServiceException("非同区域下的工作人员不能接受工单");
+    }
 //6. 保存工单信息
-Task task = new Task();
-BeanUtil.copyProperties(taskDto, task);// 属性赋值
-task.setCreateTime(DateUtils.getNowDate());// 创建时间
-task.setTaskCode(generateTaskCode());// 工单编号 202405150001
-task.setTaskStatus(DkdContants.TASK_STATUS_CREATE);// 创建工单
-task.setAddr(vm.getAddr());
-task.setRegionId(vm.getRegionId());
-task.setUserName(emp.getUserName());
-int taskResult = taskMapper.insertTask(task);
+    Task task = new Task();
+    BeanUtil.copyProperties(taskDto, task);// 属性赋值
+    task.setCreateTime(DateUtils.getNowDate());// 创建时间
+    task.setTaskCode(generateTaskCode());// 工单编号 202405150001
+    task.setTaskStatus(DkdContants.TASK_STATUS_CREATE);// 创建工单
+    task.setAddr(vm.getAddr());
+    task.setRegionId(vm.getRegionId());
+    task.setUserName(emp.getUserName());
+    int taskResult = taskMapper.insertTask(task);
 //7. 如果是补货工单，向工单明细表插入记录
-if (task.getProductTypeId() == DkdContants.TASK_TYPE_SUPPLY) {
-if (CollUtil.isEmpty(taskDto.getDetails())) {
-throw new ServiceException("补货工单明细不能为空");
-}
-List<TaskDetails> taskDetailsList = taskDto.getDetails().stream().map(details -> {
-TaskDetails taskDetails = BeanUtil.copyProperties(details, TaskDetails.class);
-taskDetails.setTaskId(task.getTaskId());
-return taskDetails;
-}).collect(Collectors.toList());
-taskDetailsService.insertBatch(taskDetailsList);
-}
+    if (task.getProductTypeId() == DkdContants.TASK_TYPE_SUPPLY) {
+        if (CollUtil.isEmpty(taskDto.getDetails())) {
+            throw new ServiceException("补货工单明细不能为空");
+        }
+        List<TaskDetails> taskDetailsList = taskDto.getDetails().stream().map(details -> {
+            TaskDetails taskDetails = BeanUtil.copyProperties(details, TaskDetails.class);
+            taskDetails.setTaskId(task.getTaskId());
+            return taskDetails;
+        }).collect(Collectors.toList());
+        taskDetailsService.insertBatch(taskDetailsList);
+    }
 
     return taskResult;
 
 }
-
-输出：请使用 mermaid 语言来描述这个方法的流程
 ```
 
-输出：
+输出：请使用 mermaid 语言来描述这个方法的流程
+
+AIGC 输出：
 
 ```mermaid
 flowchart TD

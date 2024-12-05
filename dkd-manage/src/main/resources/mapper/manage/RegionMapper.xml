@@ -79,10 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                r.remark,
                COUNT(n.id) AS node_count
         FROM region r
-                 LEFT JOIN
-             node n
-             ON
-                 r.id = n.region_id
+            LEFT JOIN node n ON r.id = n.region_id
         <where>
             <if test="name != null  and name != ''"> AND r.name LIKE concat('%', #{name}, '%')</if>
         </where>

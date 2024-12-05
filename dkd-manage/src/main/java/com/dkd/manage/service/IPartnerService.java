@@ -1,19 +1,20 @@
 package com.dkd.manage.service;
 
 import java.util.List;
+
 import com.dkd.manage.domain.Partner;
+import com.dkd.manage.domain.vo.PartnerVO;
 
 /**
  * 合作商管理Service接口
- * 
+ *
  * @author zetian
  * @date 2024-12-01
  */
-public interface IPartnerService 
-{
+public interface IPartnerService {
     /**
      * 查询合作商管理
-     * 
+     *
      * @param id 合作商管理主键
      * @return 合作商管理
      */
@@ -21,7 +22,7 @@ public interface IPartnerService
 
     /**
      * 查询合作商管理列表
-     * 
+     *
      * @param partner 合作商管理
      * @return 合作商管理集合
      */
@@ -29,7 +30,7 @@ public interface IPartnerService
 
     /**
      * 新增合作商管理
-     * 
+     *
      * @param partner 合作商管理
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface IPartnerService
 
     /**
      * 修改合作商管理
-     * 
+     *
      * @param partner 合作商管理
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface IPartnerService
 
     /**
      * 批量删除合作商管理
-     * 
+     *
      * @param ids 需要删除的合作商管理主键集合
      * @return 结果
      */
@@ -53,9 +54,17 @@ public interface IPartnerService
 
     /**
      * 删除合作商管理信息
-     * 
+     *
      * @param id 合作商管理主键
      * @return 结果
      */
     public int deletePartnerById(Long id);
+
+    /**
+     * 此方法用于：查询合作商列表
+     *
+     * @param partner 合作商
+     * @return List<PartnerVO>
+     */
+    List<PartnerVO> partnerVOList(Partner partner);
 }

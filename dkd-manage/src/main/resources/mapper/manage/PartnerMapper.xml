@@ -34,7 +34,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectPartnerVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectPartnerVOList" resultType="com.dkd.manage.domain.vo.PartnerVO">
+        SELECT
+            p.id,
+            p.name,
+            p.contact_person,
+            p.contact_phone,
+            p.profit_share,
+            p.account,
+            p.password,
+            p.create_time,
+            p.update_time,
+            p.create_by,
+            p.update_by,
+            p.remark,
+            COUNT(n.id) AS node_count  -- 统计每个合作商的点位数量
+        FROM partner p
+                 LEFT JOIN node n ON p.id = n.partner_id  -- 连接点位表
+        <where>
+            <if test="name != null  and name != ''"> and p.name LIKE CONCAT('%', #{name}, '%')</if>
+        </where>
+        GROUP BY p.id  -- 按照合作商的 ID 分组
+    </select>
+
     <insert id="insertPartner" parameterType="Partner" useGeneratedKeys="true" keyProperty="id">
         insert into partner
         <trim prefix="(" suffix=")" suffixOverrides=",">
