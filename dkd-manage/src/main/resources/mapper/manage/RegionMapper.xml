@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dkd.manage.mapper.RegionMapper">
 
     <resultMap type="Region" id="RegionResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="remark"    column="remark"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
     </resultMap>
 
     <sql id="selectRegionVo">
-        select id, name, create_time, update_time, create_by, update_by, remark from region
+        SELECT id, name, create_time, update_time, create_by, update_by, remark
+        FROM region
     </sql>
 
     <select id="selectRegionList" parameterType="Region" resultMap="RegionResult">
         <include refid="selectRegionVo"/>
         <where>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
         </where>
+    </select>
+
+    <select id="selectRegionVOList" resultType="com.dkd.manage.domain.vo.RegionVO">
+        SELECT r.id, r.name, r.remark, COUNT(n.id) AS node_count
+        FROM region r
+        LEFT JOIN node n ON r.id = n.region_id
+        <where>
+            <if test="name != null  and name != ''">AND r.name LIKE concat('%', #{name}, '%')</if>
+        </where>
+        GROUP BY r.id
     </select>
 
     <select id="selectRegionById" parameterType="Long" resultMap="RegionResult">
@@ -39,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="remark != null and remark != ''">remark,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -47,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="remark != null and remark != ''">#{remark},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateRegion" parameterType="Region">
@@ -64,7 +75,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteRegionById" parameterType="Long">
-        delete from region where id = #{id}
+        DELETE
+        FROM region
+        WHERE id = #{id}
     </delete>
 
     <delete id="deleteRegionByIds" parameterType="String">
@@ -73,16 +86,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-
-    <select id="selectRegionVOList" resultType="com.dkd.manage.domain.vo.RegionVO">
-        SELECT r.name,
-               r.remark,
-               COUNT(n.id) AS node_count
-        FROM region r
-            LEFT JOIN node n ON r.id = n.region_id
-        <where>
-            <if test="name != null  and name != ''"> AND r.name LIKE concat('%', #{name}, '%')</if>
-        </where>
-        GROUP BY r.id
-    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.dkd.manage.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dkd.common.utils.SecurityUtils;
 import com.dkd.manage.domain.vo.PartnerVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,13 @@ import com.dkd.common.core.page.TableDataInfo;
 
 /**
  * 合作商管理Controller
- * 
+ *
  * @author zetian
  * @date 2024-12-01
  */
 @RestController
 @RequestMapping("/manage/partner")
-public class PartnerController extends BaseController
-{
+public class PartnerController extends BaseController {
     @Autowired
     private IPartnerService partnerService;
 
@@ -41,8 +41,7 @@ public class PartnerController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:partner:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Partner partner)
-    {
+    public TableDataInfo list(Partner partner) {
         startPage();
         List<PartnerVO> list = partnerService.partnerVOList(partner);
         return getDataTable(list);
@@ -54,8 +53,7 @@ public class PartnerController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:partner:export')")
     @Log(title = "合作商管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Partner partner)
-    {
+    public void export(HttpServletResponse response, Partner partner) {
         List<Partner> list = partnerService.selectPartnerList(partner);
         ExcelUtil<Partner> util = new ExcelUtil<Partner>(Partner.class);
         util.exportExcel(response, list, "合作商管理数据");
@@ -66,8 +64,7 @@ public class PartnerController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:partner:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(partnerService.selectPartnerById(id));
     }
 
@@ -77,8 +74,7 @@ public class PartnerController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:partner:add')")
     @Log(title = "合作商管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Partner partner)
-    {
+    public AjaxResult add(@RequestBody Partner partner) {
         return toAjax(partnerService.insertPartner(partner));
     }
 
@@ -88,8 +84,7 @@ public class PartnerController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:partner:edit')")
     @Log(title = "合作商管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Partner partner)
-    {
+    public AjaxResult edit(@RequestBody Partner partner) {
         return toAjax(partnerService.updatePartner(partner));
     }
 
@@ -98,9 +93,26 @@ public class PartnerController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:partner:remove')")
     @Log(title = "合作商管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(partnerService.deletePartnerByIds(ids));
+    }
+
+    /**
+     * 此方法用于：重制合作商密码
+     *
+     * @param id 合作商 Id
+     * @return AjaxResult
+     */
+    @PreAuthorize("@ss.hasPermi('manage:partner:edit')")
+    @Log(title = "合作商管理", businessType = BusinessType.DELETE)
+    @PutMapping("/resetPwd/{id}")
+    public AjaxResult resetPwd(@PathVariable Long id) {
+        // 创建合作商对象
+        Partner partner = new Partner();
+        partner.setId(id);
+        partner.setPassword(SecurityUtils.encryptPassword("123456"));
+        // 调用修改方法修改密码
+        return toAjax(partnerService.updatePartner(partner));
     }
 }
