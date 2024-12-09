@@ -147,6 +147,9 @@ public class GlobalExceptionHandler
         if (e.getMessage().contains("foreign key"))
             return AjaxResult.error("无法删除，有其它数据引用");
 
+        if (e.getMessage().contains("emp.user_mobile_uindex"))
+            return AjaxResult.error("员工手机号已存在");
+
         return AjaxResult.error("数据完整性异常，请检查数据是否完整");
     }
 }
