@@ -1,8 +1,8 @@
 # 人员管理之阿里云 OSS 应用
 
-在若依框架目前的实现中，默认是把图片存储到了服务器本地的目录，通过服务进行访问，
+在若依框架目前的实现中，默认把图片存储到服务器本地的目录，通过后端服服务进行访问，
 
-这样做存储的是比较省事，但是缺点也有很多：
+这样做存储比较省事，但缺点也有很多：
 
 - 硬件与网络要求：服务器通常需要高性能的硬件和稳定的网络环境，以保证文件传输的效率和稳定性。这可能会增加硬件和网络资源的成本和维护难度。
 - 管理难度：服务器目录需要管理员进行配置和管理，包括权限设置、备份策略等。如果管理不善或配置不当，可能会引发一些安全问题和性能问题。
@@ -57,7 +57,7 @@ dkd:
     endpoint: xxxxxx
 ```
 
-在 dkd-common 模块的 pom.xml 文件中，引入依赖
+在 dkd-common 模块的 pom.xml 文件中，引入阿里 OSS 的依赖
 
 dkd-common/pom.xml
 
@@ -93,9 +93,11 @@ dkd-common/src/test/java/com/dkd/common/test/Demo.java
 
 ## 二、X File Store
 
-[X File Store](https://x-file-storage.xuyanwu.cn/#/) 旨在用一行代码将文件存储到本地、FTP、SFTP、WebDAV、阿里云 OSS、华为云 OBS、七牛云 Kodo、腾讯云 COS、百度云 BOS、又拍云 USS、MinIO、 Amazon S3、GoogleCloud Storage、FastDFS、 Azure Blob Storage、Cloudflare R2、金山云 KS3、美团云 MSS、京东云 OSS、天翼云 OOS、移动 云EOS、沃云 OSS、 网易数帆 NOS、Ucloud US3、青云 QingStor、平安云 OBS、首云 OSS、IBM COS、其它兼容 S3 协议的存储平台。
+[X File Store](https://x-file-storage.xuyanwu.cn/#/) 旨在用一行代码，将文件存储到本地；适配：
 
-在 dkd-common 模块的 pom.xml 文件中，引入依赖
+- FTP、SFTP、WebDAV、阿里云 OSS、华为云 OBS、七牛云 Kodo、腾讯云 COS、百度云 BOS、又拍云 USS、MinIO、 Amazon S3、GoogleCloud Storage、FastDFS、 Azure Blob Storage、Cloudflare R2、金山云 KS3、美团云 MSS、京东云 OSS、天翼云 OOS、移动 云EOS、沃云 OSS、 网易数帆 NOS、Ucloud US3、青云 QingStor、平安云 OBS、首云 OSS、IBM COS、其它兼容 S3 协议的存储平台。
+
+在 dkd-common 模块的 pom.xml 文件中，引入 X File Store 的依赖
 
 dkd-common/pom.xml
 
@@ -138,9 +140,9 @@ dkd-admin/src/main/resources/application.yml
 
 ```yaml
 dromara:
-  x-file-storage: #文件存储配置
-    default-platform: aliyun-oss-1 #默认使用的存储平台
-    thumbnail-suffix: ".min.jpg" #缩略图后缀，例如【.min.jpg】【.png】
+  x-file-storage: # 文件存储配置
+    default-platform: aliyun-oss-1 # 使用的存储平台
+    thumbnail-suffix: ".min.jpg" # 缩略图后缀，例如【.min.jpg】【.png】
     # 对应平台的配置写在这里，注意缩进要对齐
     aliyun-oss:
       - platform: aliyun-oss-1 # 存储平台标识
@@ -168,7 +170,7 @@ public class DkdApplication
 
 参考[文档示例](https://x-file-storage.xuyanwu.cn/#/快速入门?id=上传)；
 
-找到文件上传的控制器类 `CommonController`，以及对应的方法：
+找到文件上传的控制器类 `CommonController`，以及对应的 `uploadFile` 方法：
 
 dkd-admin/src/main/java/com/dkd/web/controller/common/CommonController.java
 
@@ -202,7 +204,7 @@ public AjaxResult uploadFile(MultipartFile file) throws Exception
 
 将上方代码进行改造：
 
-- 注入 X File Storage 的 Bean 对象
+- 注入 X File Storage 的 Bean 对象；
 - 改造上方代码的逻辑。
 
 dkd-admin/src/main/java/com/dkd/web/controller/common/CommonController.java
@@ -260,7 +262,7 @@ watch(() => props.modelValue, val => {
     // 然后将数组转为对象数组
     fileList.value = list.map(item => {
       if (typeof item === "string") {
-        if (item.indexOf(baseUrl) === -1   && item.indexOf("http") === -1) {
+        if (item.indexOf(baseUrl) === -1 && item.indexOf("http") === -1) {
           item = { name: baseUrl + item, url: baseUrl + item };
         } else {
           item = { name: item, url: item };
