@@ -1,5 +1,6 @@
 package com.dkd.manage.domain;
 
+import lombok.Builder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.dkd.common.annotation.Excel;

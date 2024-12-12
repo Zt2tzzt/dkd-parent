@@ -58,4 +58,10 @@ public interface IChannelService
      * @return 结果
      */
     public int deleteChannelById(Long id);
+
+    /**
+     * 此方法用于：批量插入货道记录
+     * @param channels 货道集合
+     */
+    void batchInsertChannel(List<Channel> channels);
 }

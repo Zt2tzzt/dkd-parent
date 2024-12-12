@@ -93,4 +93,9 @@ public class ChannelServiceImpl implements IChannelService
     {
         return channelMapper.deleteChannelById(id);
     }
+
+    @Override
+    public void batchInsertChannel(List<Channel> channels) {
+        channelMapper.batchInsertChannel(channels);
+    }
 }
