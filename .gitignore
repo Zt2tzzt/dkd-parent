@@ -47,3 +47,5 @@ nbdist/
 !*/build/*.xml
 
 application-dev.yml
+
+.DS_Store
