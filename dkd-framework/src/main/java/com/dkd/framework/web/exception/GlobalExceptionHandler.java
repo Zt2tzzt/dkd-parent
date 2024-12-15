@@ -144,11 +144,16 @@ public class GlobalExceptionHandler
     public AjaxResult handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         log.error("数据完整性异常", e);
 
-        if (e.getMessage().contains("foreign key"))
+        String errMsg = e.getMessage();
+        if (errMsg.contains("foreign key"))
             return AjaxResult.error("无法删除，有其它数据引用");
 
-        if (e.getMessage().contains("emp.user_mobile_uindex"))
+        if (errMsg.contains("emp.user_mobile_uindex"))
             return AjaxResult.error("员工手机号已存在");
+
+        if (errMsg.contains("Duplicate"))
+            return AjaxResult.error("无法保存，名称已存在");
+
 
         return AjaxResult.error("数据完整性异常，请检查数据是否完整");
     }
