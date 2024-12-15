@@ -38,7 +38,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectChannelVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectChannelBySKuIds" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM channel WHERE sku_id IN
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <insert id="insertChannel" parameterType="Channel" useGeneratedKeys="true" keyProperty="id">
         insert into channel
         <trim prefix="(" suffix=")" suffixOverrides=",">
