@@ -58,4 +58,11 @@ public interface SkuMapper
      * @return 结果
      */
     public int deleteSkuBySkuIds(Long[] skuIds);
+
+    /**
+     * 此方法用于：批量插入
+     * @param list SKU 集合
+     * @return int
+     */
+    int insertSkuBatch(List<Sku> list);
 }
