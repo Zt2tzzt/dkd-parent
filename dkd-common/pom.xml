@@ -145,7 +145,7 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.17.4</version>
         </dependency>
-        <!-- 以下三个坐标，若依默认集成了，不导入仪可以-->
+        <!-- 以下三个坐标，若依默认集成了，不导入也可以-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>

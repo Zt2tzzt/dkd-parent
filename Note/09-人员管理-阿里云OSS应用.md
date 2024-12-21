@@ -42,9 +42,9 @@ A[注册阿里云（实名认证）] -->B[充值]
     F --> G[案例继承]
 ```
 
-Bucket 存储空间，是用户用于存储对象（Object）（即文件）的容器，所有的对象（文件），都必须隶属于某个存储空间。
+Bucket 存储空间，是用户用于存储对象（Object）即文件的容器，所有的对象，都必须隶属于某个存储空间。
 
-在 aplication-dev.yaml 
+在 aplication-dev.yaml
 
 dkd-admin/src/main/resources/application-dev.yml
 
@@ -115,7 +115,7 @@ dkd-common/pom.xml
     <artifactId>aliyun-sdk-oss</artifactId>
     <version>3.17.4</version>
 </dependency>
-<!-- 以下三个坐标，若依默认集成了，不导入仪可以-->
+<!-- 以下三个坐标，若依默认集成了，不导入也可以-->
 <dependency>
     <groupId>javax.xml.bind</groupId>
     <artifactId>jaxb-api</artifactId>
@@ -168,9 +168,7 @@ public class DkdApplication
 }
 ```
 
-参考[文档示例](https://x-file-storage.xuyanwu.cn/#/快速入门?id=上传)；
-
-找到文件上传的控制器类 `CommonController`，以及对应的 `uploadFile` 方法：
+参考[文档示例](https://x-file-storage.xuyanwu.cn/#/快速入门?id=上传)；在若依中工程中，找到文件上传的控制器类 `CommonController`，其中的 `uploadFile` 方法：
 
 dkd-admin/src/main/java/com/dkd/web/controller/common/CommonController.java
 
@@ -276,4 +274,3 @@ watch(() => props.modelValue, val => {
   }
 },{ deep: true, immediate: true });
 ```
-
