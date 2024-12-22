@@ -2,6 +2,9 @@ package com.dkd.manage.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.dkd.manage.domain.dto.ChannelConfigDTO;
+import com.dkd.manage.domain.vo.ChannelVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,6 +73,16 @@ public class ChannelController extends BaseController
     }
 
     /**
+     * 根据售货机编号，获取货道列表
+     */
+    @PreAuthorize("@ss.hasPermi('manage:channel:list')")
+    @GetMapping("/list/{innerCode}")
+    public AjaxResult getChannelVOListByInnerCode(@PathVariable String innerCode) {
+        List<ChannelVO> channelVOList = channelService.selectChannelVOListByInnerCode(innerCode);
+        return success(channelVOList);
+    }
+
+    /**
      * 新增售货机货道
      */
     @PreAuthorize("@ss.hasPermi('manage:channel:add')")
@@ -89,6 +102,16 @@ public class ChannelController extends BaseController
     public AjaxResult edit(@RequestBody Channel channel)
     {
         return toAjax(channelService.updateChannel(channel));
+    }
+
+    /**
+     * 货道关联商品
+     */
+    @PreAuthorize("@ss.hasPermi('manage:channel:edit')")
+    @Log(title = "货道关联商品", businessType = BusinessType.UPDATE)
+    @PutMapping("/config")
+    public AjaxResult setChannels(@RequestBody ChannelConfigDTO channelConfigDTO) {
+        return toAjax(channelService.setChannels(channelConfigDTO));
     }
 
     /**

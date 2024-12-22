@@ -1,39 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dkd.manage.mapper.ChannelMapper">
-    
+
     <resultMap type="Channel" id="ChannelResult">
-        <result property="id"    column="id"    />
-        <result property="channelCode"    column="channel_code"    />
-        <result property="skuId"    column="sku_id"    />
-        <result property="vmId"    column="vm_id"    />
-        <result property="innerCode"    column="inner_code"    />
-        <result property="maxCapacity"    column="max_capacity"    />
-        <result property="currentCapacity"    column="current_capacity"    />
-        <result property="lastSupplyTime"    column="last_supply_time"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="id" column="id"/>
+        <result property="channelCode" column="channel_code"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="vmId" column="vm_id"/>
+        <result property="innerCode" column="inner_code"/>
+        <result property="maxCapacity" column="max_capacity"/>
+        <result property="currentCapacity" column="current_capacity"/>
+        <result property="lastSupplyTime" column="last_supply_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <resultMap type="ChannelVO" id="ChannelVOResult">
+        <result property="id" column="id"/>
+        <result property="channelCode" column="channel_code"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="vmId" column="vm_id"/>
+        <result property="innerCode" column="inner_code"/>
+        <result property="maxCapacity" column="max_capacity"/>
+        <result property="currentCapacity" column="current_capacity"/>
+        <result property="lastSupplyTime" column="last_supply_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="sku" javaType="Sku" column="sku_id"
+                     select="com.dkd.manage.mapper.SkuMapper.selectSkuBySkuId"/>
     </resultMap>
 
     <sql id="selectChannelVo">
-        select id, channel_code, sku_id, vm_id, inner_code, max_capacity, current_capacity, last_supply_time, create_time, update_time from channel
+        SELECT id,
+               channel_code,
+               sku_id,
+               vm_id,
+               inner_code,
+               max_capacity,
+               current_capacity,
+               last_supply_time,
+               create_time,
+               update_time
+        FROM channel
     </sql>
 
     <select id="selectChannelList" parameterType="Channel" resultMap="ChannelResult">
         <include refid="selectChannelVo"/>
-        <where>  
-            <if test="channelCode != null  and channelCode != ''"> and channel_code = #{channelCode}</if>
-            <if test="skuId != null "> and sku_id = #{skuId}</if>
-            <if test="vmId != null "> and vm_id = #{vmId}</if>
-            <if test="innerCode != null  and innerCode != ''"> and inner_code = #{innerCode}</if>
-            <if test="maxCapacity != null "> and max_capacity = #{maxCapacity}</if>
-            <if test="currentCapacity != null "> and current_capacity = #{currentCapacity}</if>
-            <if test="lastSupplyTime != null "> and last_supply_time = #{lastSupplyTime}</if>
+        <where>
+            <if test="channelCode != null  and channelCode != ''">and channel_code = #{channelCode}</if>
+            <if test="skuId != null ">and sku_id = #{skuId}</if>
+            <if test="vmId != null ">and vm_id = #{vmId}</if>
+            <if test="innerCode != null  and innerCode != ''">and inner_code = #{innerCode}</if>
+            <if test="maxCapacity != null ">and max_capacity = #{maxCapacity}</if>
+            <if test="currentCapacity != null ">and current_capacity = #{currentCapacity}</if>
+            <if test="lastSupplyTime != null ">and last_supply_time = #{lastSupplyTime}</if>
         </where>
     </select>
-    
+
     <select id="selectChannelById" parameterType="Long" resultMap="ChannelResult">
         <include refid="selectChannelVo"/>
         where id = #{id}
@@ -44,6 +69,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach collection="array" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </select>
+
+    <select id="selectChannelVOListByInnerCode" resultMap="ChannelVOResult">
+        <include refid="selectChannelVo"/>
+        WHERE inner_code = #{innerCode}
     </select>
 
     <insert id="insertChannel" parameterType="Channel" useGeneratedKeys="true" keyProperty="id">
@@ -58,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lastSupplyTime != null">last_supply_time,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="channelCode != null and channelCode != ''">#{channelCode},</if>
             <if test="skuId != null">#{skuId},</if>
@@ -69,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lastSupplyTime != null">#{lastSupplyTime},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <insert id="batchInsertChannel" parameterType="list" useGeneratedKeys="true" keyProperty="id">
@@ -114,12 +144,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
+    <update id="updateChannelsBatch" parameterType="java.util.List">
+        <foreach collection="list" item="channel" separator=";">
+            UPDATE channel
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="channel.channelCode != null and channel.channelCode != ''">channel_code = #{channel.channelCode},</if>
+                <if test="channel.skuId != null">sku_id = #{channel.skuId},</if>
+                <if test="channel.vmId != null">vm_id = #{channel.vmId},</if>
+                <if test="channel.innerCode != null and channel.innerCode != ''">inner_code = #{channel.innerCode},</if>
+                <if test="channel.maxCapacity != null">max_capacity = #{channel.maxCapacity},</if>
+                <if test="channel.currentCapacity != null">current_capacity = #{channel.currentCapacity},</if>
+                <if test="channel.lastSupplyTime != null">last_supply_time = #{channel.lastSupplyTime},</if>
+                <if test="channel.createTime != null">create_time = #{channel.createTime},</if>
+                <if test="channel.updateTime != null">update_time = #{channel.updateTime},</if>
+            </trim>
+            WHERE id = #{channel.id}
+        </foreach>
+    </update>
+
     <delete id="deleteChannelById" parameterType="Long">
-        delete from channel where id = #{id}
+        DELETE
+        FROM channel
+        WHERE id = #{id}
     </delete>
 
     <delete id="deleteChannelByIds" parameterType="String">
-        delete from channel where id in 
+        delete from channel where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
