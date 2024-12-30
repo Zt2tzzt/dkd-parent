@@ -145,6 +145,7 @@ public class GlobalExceptionHandler
         log.error("数据完整性异常", e);
         String errMsg = e.getMessage();
 
+        assert errMsg != null;
         if (errMsg.contains("foreign key"))
             return AjaxResult.error("无法删除，有其它数据引用");
 

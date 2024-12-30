@@ -61,6 +61,17 @@ public class VendingMachineServiceImpl implements IVendingMachineService {
     }
 
     /**
+     * 此方法用于：根据设备编号查询设备信息
+     *
+     * @param innerCode 设备编号
+     * @return 设备信息
+     */
+    @Override
+    public VendingMachine selectVendingMachineByInnerCode(String innerCode) {
+        return vendingMachineMapper.selectVendingMachineByInnerCode(innerCode);
+    }
+
+    /**
      * 新增设备管理
      *
      * @param vendingMachine 设备管理
@@ -117,7 +128,7 @@ public class VendingMachineServiceImpl implements IVendingMachineService {
      */
     @Override
     public int updateVendingMachine(VendingMachine vendingMachine) {
-        // 查询点位表
+        // 冗余字段，查询点位表
         Long nodeId = vendingMachine.getNodeId();
         if (nodeId != null) {
             Node node = iNodeService.selectNodeById(nodeId);
