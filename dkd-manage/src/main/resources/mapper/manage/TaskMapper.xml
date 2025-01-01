@@ -114,7 +114,7 @@
             <if test="userId != null">user_id,</if>
             <if test="userName != null">user_name,</if>
             <if test="regionId != null">region_id,</if>
-            <if test="desc != null">desc,</if>
+            <if test="desc != null">`desc`,</if>
             <if test="productTypeId != null">product_type_id,</if>
             <if test="assignorId != null">assignor_id,</if>
             <if test="addr != null">addr,</if>

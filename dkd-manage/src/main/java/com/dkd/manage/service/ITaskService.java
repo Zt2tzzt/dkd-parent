@@ -3,6 +3,7 @@ package com.dkd.manage.service;
 import java.util.List;
 
 import com.dkd.manage.domain.Task;
+import com.dkd.manage.domain.vo.TaskDTO;
 import com.dkd.manage.domain.vo.TaskVO;
 
 /**
@@ -43,6 +44,13 @@ public interface ITaskService {
      * @return 结果
      */
     public int insertTask(Task task);
+
+    /**
+     * 此方法用于：新增工单
+     * @param taskDTO 工单
+     * @return int
+     */
+    int insertTaskDTO(TaskDTO taskDTO);
 
     /**
      * 修改工单

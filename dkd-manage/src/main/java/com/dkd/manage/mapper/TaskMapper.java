@@ -1,20 +1,22 @@
 package com.dkd.manage.mapper;
 
-import java.util.List;
 import com.dkd.manage.domain.Task;
 import com.dkd.manage.domain.vo.TaskVO;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 工单Mapper接口
- * 
+ *
  * @author zetian
  * @date 2024-12-23
  */
-public interface TaskMapper 
-{
+@Mapper
+public interface TaskMapper {
     /**
      * 查询工单
-     * 
+     *
      * @param taskId 工单主键
      * @return 工单
      */
@@ -22,7 +24,7 @@ public interface TaskMapper
 
     /**
      * 查询工单列表
-     * 
+     *
      * @param task 工单
      * @return 工单集合
      */
@@ -38,7 +40,7 @@ public interface TaskMapper
 
     /**
      * 新增工单
-     * 
+     *
      * @param task 工单
      * @return 结果
      */
@@ -46,7 +48,7 @@ public interface TaskMapper
 
     /**
      * 修改工单
-     * 
+     *
      * @param task 工单
      * @return 结果
      */
@@ -54,7 +56,7 @@ public interface TaskMapper
 
     /**
      * 删除工单
-     * 
+     *
      * @param taskId 工单主键
      * @return 结果
      */
@@ -62,7 +64,7 @@ public interface TaskMapper
 
     /**
      * 批量删除工单
-     * 
+     *
      * @param taskIds 需要删除的数据主键集合
      * @return 结果
      */

@@ -27,14 +27,13 @@ import com.dkd.common.core.page.TableDataInfo;
 
 /**
  * 人员列表Controller
- * 
+ *
  * @author zetian
  * @date 2024-12-09
  */
 @RestController
 @RequestMapping("/manage/emp")
-public class EmpController extends BaseController
-{
+public class EmpController extends BaseController {
     @Autowired
     private IEmpService empService;
     @Autowired
@@ -45,8 +44,7 @@ public class EmpController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:emp:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Emp emp)
-    {
+    public TableDataInfo list(Emp emp) {
         startPage();
         List<Emp> list = empService.selectEmpList(emp);
         return getDataTable(list);
@@ -58,8 +56,7 @@ public class EmpController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:emp:export')")
     @Log(title = "人员列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Emp emp)
-    {
+    public void export(HttpServletResponse response, Emp emp) {
         List<Emp> list = empService.selectEmpList(emp);
         ExcelUtil<Emp> util = new ExcelUtil<Emp>(Emp.class);
         util.exportExcel(response, list, "人员列表数据");
@@ -70,8 +67,7 @@ public class EmpController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:emp:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(empService.selectEmpById(id));
     }
 
@@ -96,13 +92,32 @@ public class EmpController extends BaseController
     }
 
     /**
+     * 此方法用于：根据售货机设备编号，获取人员列表
+     */
+    @PreAuthorize("@ss.hasPermi('manage:emp:list')")
+    @GetMapping("/operationList/{innerCode}")
+    public AjaxResult operationList(@PathVariable("innerCode") String innerCode) {
+        // 根据 innerode 查询售货机信息
+        VendingMachine vendingMachine = vendingMachineService.selectVendingMachineByInnerCode(innerCode);
+        if (vendingMachine == null)
+            return error("设备编号不存在");
+
+        // 根据区域 id，角色编号，员工状态，查询运维人员列表。
+        Emp emp = new Emp();
+        emp.setRegionId(vendingMachine.getRegionId());
+        emp.setRoleCode(DkdContants.ROLE_CODE_OPERATOR); // 运维人员
+        emp.setStatus(DkdContants.EMP_STATUS_NORMAL); // 启用
+
+        return success(empService.selectEmpList(emp));
+    }
+
+    /**
      * 新增人员列表
      */
     @PreAuthorize("@ss.hasPermi('manage:emp:add')")
     @Log(title = "人员列表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Emp emp)
-    {
+    public AjaxResult add(@RequestBody Emp emp) {
         return toAjax(empService.insertEmp(emp));
     }
 
@@ -112,8 +127,7 @@ public class EmpController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:emp:edit')")
     @Log(title = "人员列表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Emp emp)
-    {
+    public AjaxResult edit(@RequestBody Emp emp) {
         return toAjax(empService.updateEmp(emp));
     }
 
@@ -122,9 +136,8 @@ public class EmpController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:emp:remove')")
     @Log(title = "人员列表", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(empService.deleteEmpByIds(ids));
     }
 }

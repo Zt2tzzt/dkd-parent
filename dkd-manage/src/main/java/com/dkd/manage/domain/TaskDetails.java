@@ -1,121 +1,126 @@
 package com.dkd.manage.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.dkd.common.annotation.Excel;
 import com.dkd.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 工单详情对象 task_details
- * 
+ *
  * @author zetian
  * @date 2024-12-23
  */
-public class TaskDetails extends BaseEntity
-{
+public class TaskDetails extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     private Long detailsId;
 
-    /** 工单Id */
+    /**
+     * 工单Id
+     */
     @Excel(name = "工单Id")
     private Long taskId;
 
-    /** 货道编号 */
+    /**
+     * 货道编号
+     */
     @Excel(name = "货道编号")
     private String channelCode;
 
-    /** 补货期望容量 */
+    /**
+     * 补货期望容量
+     */
     @Excel(name = "补货期望容量")
     private Long expectCapacity;
 
-    /** 商品Id */
+    /**
+     * 商品Id
+     */
     @Excel(name = "商品Id")
     private Long skuId;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String skuName;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
     private String skuImage;
 
-    public void setDetailsId(Long detailsId) 
-    {
+    public Long getDetailsId() {
+        return detailsId;
+    }
+
+    public void setDetailsId(Long detailsId) {
         this.detailsId = detailsId;
     }
 
-    public Long getDetailsId() 
-    {
-        return detailsId;
+    public Long getTaskId() {
+        return taskId;
     }
-    public void setTaskId(Long taskId) 
-    {
+
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 
-    public Long getTaskId() 
-    {
-        return taskId;
+    public String getChannelCode() {
+        return channelCode;
     }
-    public void setChannelCode(String channelCode) 
-    {
+
+    public void setChannelCode(String channelCode) {
         this.channelCode = channelCode;
     }
 
-    public String getChannelCode() 
-    {
-        return channelCode;
+    public Long getExpectCapacity() {
+        return expectCapacity;
     }
-    public void setExpectCapacity(Long expectCapacity) 
-    {
+
+    public void setExpectCapacity(Long expectCapacity) {
         this.expectCapacity = expectCapacity;
     }
 
-    public Long getExpectCapacity() 
-    {
-        return expectCapacity;
+    public Long getSkuId() {
+        return skuId;
     }
-    public void setSkuId(Long skuId) 
-    {
+
+    public void setSkuId(Long skuId) {
         this.skuId = skuId;
     }
 
-    public Long getSkuId() 
-    {
-        return skuId;
+    public String getSkuName() {
+        return skuName;
     }
-    public void setSkuName(String skuName) 
-    {
+
+    public void setSkuName(String skuName) {
         this.skuName = skuName;
     }
 
-    public String getSkuName() 
-    {
-        return skuName;
-    }
-    public void setSkuImage(String skuImage) 
-    {
-        this.skuImage = skuImage;
+    public String getSkuImage() {
+        return skuImage;
     }
 
-    public String getSkuImage() 
-    {
-        return skuImage;
+    public void setSkuImage(String skuImage) {
+        this.skuImage = skuImage;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("detailsId", getDetailsId())
-            .append("taskId", getTaskId())
-            .append("channelCode", getChannelCode())
-            .append("expectCapacity", getExpectCapacity())
-            .append("skuId", getSkuId())
-            .append("skuName", getSkuName())
-            .append("skuImage", getSkuImage())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("detailsId", getDetailsId())
+                .append("taskId", getTaskId())
+                .append("channelCode", getChannelCode())
+                .append("expectCapacity", getExpectCapacity())
+                .append("skuId", getSkuId())
+                .append("skuName", getSkuName())
+                .append("skuImage", getSkuImage())
+                .toString();
     }
 }
