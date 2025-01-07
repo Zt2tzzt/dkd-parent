@@ -70,7 +70,7 @@ spring:
     # 地址
     host: localhost
     # 端口，默认为6379
-    port: 6379
+    port: ${spring.redis.prot}
     # 数据库索引
     database: ${spring.redis.database}
     # 密码
