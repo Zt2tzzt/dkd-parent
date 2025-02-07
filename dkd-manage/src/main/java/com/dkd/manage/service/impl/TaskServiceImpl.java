@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
  * 工单Service业务层处理
  *
  * @author zetian
- * @date 2024-12-23
  */
 @Service
 public class TaskServiceImpl implements ITaskService {
@@ -199,11 +198,13 @@ public class TaskServiceImpl implements ITaskService {
             if (detailDTOs == null || detailDTOs.isEmpty())
                 throw new ServiceException("补货工单详情不能为空");
 
-            List<TaskDetails> taskDetais = detailDTOs.stream().map(dto -> {
-                TaskDetails taskDetails = BeanUtil.copyProperties(dto, TaskDetails.class);
-                taskDetails.setTaskId(task.getTaskId());
-                return taskDetails;
-            }).collect(Collectors.toList());
+            List<TaskDetails> taskDetais = detailDTOs.stream()
+                    .map(dto -> {
+                        TaskDetails taskDetails = BeanUtil.copyProperties(dto, TaskDetails.class);
+                        taskDetails.setTaskId(task.getTaskId());
+                        return taskDetails;
+                    })
+                    .collect(Collectors.toList());
             taskDetailsService.inserTaskDetailsBatch(taskDetais);
         }
 
@@ -218,6 +219,30 @@ public class TaskServiceImpl implements ITaskService {
      */
     @Override
     public int updateTask(Task task) {
+        task.setUpdateTime(DateUtils.getNowDate());
+        return taskMapper.updateTask(task);
+    }
+
+    /**
+     * 此方法用于：取消工单
+     * @param task 工单
+     * @return int
+     */
+    @Override
+    public int cancelTask(Task task) {
+        // 判断工单状态是否可以取消
+        Task taskDb = taskMapper.selectTaskByTaskId(task.getTaskId());
+
+        // 工单状态，如果已取消，则跑出异常
+        if (DkdContants.TASK_STATUS_CANCEL.equals(taskDb.getTaskStatus()))
+            throw new ServiceException("该工单已取消了，不能再次取消");
+
+        // 工单状态如果已完成，则抛出异常
+        if (DkdContants.TASK_STATUS_FINISH.equals(taskDb.getTaskStatus()))
+            throw new ServiceException("该工单已完成，不能取消");
+
+        // 设置更新字段
+        task.setTaskStatus(DkdContants.TASK_STATUS_CANCEL); // 工单状态：取消
         task.setUpdateTime(DateUtils.getNowDate());
         return taskMapper.updateTask(task);
     }

@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: RuoYi
+  name: Zetian
   # 版本
   version: 3.8.7
   # 版权年份
@@ -68,7 +68,7 @@ spring:
   # redis 配置
   redis:
     # 地址
-    host: localhost
+    host: ${spring.redis.host}
     # 端口，默认为6379
     port: ${spring.redis.prot}
     # 数据库索引

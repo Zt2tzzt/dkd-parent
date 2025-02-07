@@ -21,7 +21,6 @@ import java.util.List;
  * 工单Controller
  *
  * @author zetian
- * @date 2024-12-23
  */
 @RestController
 @RequestMapping("/manage/task")
@@ -81,6 +80,16 @@ public class TaskController extends BaseController {
     @PutMapping
     public AjaxResult edit(@RequestBody Task task) {
         return toAjax(taskService.updateTask(task));
+    }
+
+    /**
+     * 取消工单
+     */
+    @PreAuthorize("@ss.hasPermi('manage:task:edit')")
+    @Log(title = "工单", businessType = BusinessType.UPDATE)
+    @PutMapping("/cancel")
+    public AjaxResult cancel(@RequestBody Task task) {
+        return toAjax(taskService.cancelTask(task));
     }
 
     /**

@@ -19,7 +19,7 @@ public interface ITaskService {
      * @param taskId 工单主键
      * @return 工单
      */
-    public Task selectTaskByTaskId(Long taskId);
+    Task selectTaskByTaskId(Long taskId);
 
     /**
      * 查询工单列表
@@ -27,7 +27,7 @@ public interface ITaskService {
      * @param task 工单
      * @return 工单集合
      */
-    public List<Task> selectTaskList(Task task);
+    List<Task> selectTaskList(Task task);
 
     /**
      * 查询工单列表
@@ -43,7 +43,7 @@ public interface ITaskService {
      * @param task 工单
      * @return 结果
      */
-    public int insertTask(Task task);
+    int insertTask(Task task);
 
     /**
      * 此方法用于：新增工单
@@ -58,7 +58,14 @@ public interface ITaskService {
      * @param task 工单
      * @return 结果
      */
-    public int updateTask(Task task);
+    int updateTask(Task task);
+
+    /**
+     * 此方法用于：取消工单
+     * @param task 工单
+     * @return int
+     */
+    int cancelTask(Task task);
 
     /**
      * 批量删除工单
@@ -66,7 +73,7 @@ public interface ITaskService {
      * @param taskIds 需要删除的工单主键集合
      * @return 结果
      */
-    public int deleteTaskByTaskIds(Long[] taskIds);
+    int deleteTaskByTaskIds(Long[] taskIds);
 
     /**
      * 删除工单信息
@@ -74,5 +81,5 @@ public interface ITaskService {
      * @param taskId 工单主键
      * @return 结果
      */
-    public int deleteTaskByTaskId(Long taskId);
+    int deleteTaskByTaskId(Long taskId);
 }
