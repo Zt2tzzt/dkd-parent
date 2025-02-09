@@ -37,17 +37,17 @@ const url = ref(import.meta.env.VITE_APP_BASE_API + '/doc.html')
 </script>
 ```
 
-登录系统，访问菜单系统工具 -> 系统接口。
+登录系统，访问菜单”系统工具 -> 系统接口“，查看接口文档。
 
-## 三、TaskDetailsController 类生成接口文档
+## 三、为 TaskDetailsController 类生成接口文档
 
-TaskDetailsController.java 控制器类
+`TaskDetailsController.java` 控制器类
 
-> 注意：若依框架的 `AjaxResult` 由于继承自 `HashMap`，导致与 Swagger 和 knife4j 不兼容；
+> 注意：因为若依框架的 `AjaxResult` 类继承自 `HashMap` 类，导致与 Swagger 和 knife4j 不兼容；
 >
 > 观察 dkd-admin/src/main/java/com/dkd/web/controller/tool/TestController.java 中的做法，可知：
 >
-> 将返回值类型替换为 `R` 类，可解决 Swagger 解析问题，减少整体改动量。
+> 将返回值类型替换为若依框架的 `R` 类，可解决 Swagger 解析问题，减少整体改动量。
 
 dkd-manage/src/main/java/com/dkd/manage/controller/TaskDetailsController.java
 
@@ -181,7 +181,7 @@ public class TaskDetailsController extends BaseController {
 
 在接口文档中，为每个字段添加说明。
 
-在 TaskDetails.java 实体类中，使用 `@ApiModelProperty` 注解。
+在 `TaskDetails.java` 实体类中，使用 `@ApiModelProperty` 注解。
 
 dkd-manage/src/main/java/com/dkd/manage/domain/TaskDetails.java
 
@@ -243,7 +243,7 @@ public class TaskDetails extends BaseEntity {
 
 ### 4.1.Swagger 配置文件改造
 
-修改标题为：`标题：帝可得管理系统_接口文档`
+在 `SwaggerConfig.java` 配置累中，修改接口文档标题为：`标题：帝可得管理系统_接口文档`
 
 dkd-admin/src/main/java/com/dkd/web/core/config/SwaggerConfig.java
 
@@ -266,7 +266,7 @@ private ApiInfo apiInfo() {
 }
 ```
 
-修改作者为：`zetian`
+在 `application.yml` 配置文件中，修改接口文档作者为：`zetian`
 
 dkd-admin/src/main/resources/application.yml
 
@@ -277,4 +277,4 @@ ruoyi:
   name: Zetian
 ```
 
-> 集成第三方支付框架推荐：[elegent-pay](https://gitee.com/myelegent/elegent-pay)
+> 推荐用于集成第三方支付的框架：[elegent-pay](https://gitee.com/myelegent/elegent-pay)
