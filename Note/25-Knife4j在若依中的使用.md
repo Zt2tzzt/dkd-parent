@@ -41,7 +41,7 @@ const url = ref(import.meta.env.VITE_APP_BASE_API + '/doc.html')
 
 ## 三、为 TaskDetailsController 类生成接口文档
 
-`TaskDetailsController.java` 控制器类
+为 `TaskDetailsController.java` 控制器类里的方法，生成接口文档。
 
 > 注意：因为若依框架的 `AjaxResult` 类继承自 `HashMap` 类，导致与 Swagger 和 knife4j 不兼容；
 >
@@ -243,7 +243,7 @@ public class TaskDetails extends BaseEntity {
 
 ### 4.1.Swagger 配置文件改造
 
-在 `SwaggerConfig.java` 配置累中，修改接口文档标题为：`标题：帝可得管理系统_接口文档`
+在 `SwaggerConfig.java` 配置类中，修改接口文档标题为：`标题：帝可得管理系统_接口文档`
 
 dkd-admin/src/main/java/com/dkd/web/core/config/SwaggerConfig.java
 

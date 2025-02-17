@@ -315,12 +315,17 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @Override
     public byte[] downloadCode(String[] tableNames) {
+        // 创建一个字节数组输出流来存储生成的代码
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        // 创建一个ZIP输出流来压缩生成的代码文件
         ZipOutputStream zip = new ZipOutputStream(outputStream);
+        // 遍历每个表名，生成对应的代码并添加到ZIP文件中
         for (String tableName : tableNames) {
             generatorCode(tableName, zip);
         }
+        // 关闭ZIP输出流
         IOUtils.closeQuietly(zip);
+        // 返回生成的ZIP文件的字节数组
         return outputStream.toByteArray();
     }
 
