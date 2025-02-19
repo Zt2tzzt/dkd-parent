@@ -2,6 +2,7 @@ package com.dkd.web.controller.system;
 
 import java.util.List;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +20,11 @@ import com.dkd.system.service.ISysMenuService;
 
 /**
  * 登录验证
- * 
+ *
  * @author ruoyi
  */
 @RestController
-public class SysLoginController
-{
+public class SysLoginController {
     @Autowired
     private SysLoginService loginService;
 
@@ -36,13 +36,12 @@ public class SysLoginController
 
     /**
      * 登录方法
-     * 
+     *
      * @param loginBody 登录信息
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBody loginBody)
-    {
+    public AjaxResult login(@RequestBody LoginBody loginBody) {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
@@ -53,34 +52,39 @@ public class SysLoginController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
-    public AjaxResult getInfo()
-    {
+    public AjaxResult getInfo() {
+        // 获取当前登录用户信息
         SysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(user);
+        // 创建一个成功的AjaxResult对象
         AjaxResult ajax = AjaxResult.success();
+        // 将用户信息、角色和权限放入AjaxResult对象中
         ajax.put("user", user);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
+        // 返回包含用户信息、角色和权限的AjaxResult对象
         return ajax;
     }
 
     /**
      * 获取路由信息
-     * 
+     *
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters()
-    {
+    public AjaxResult getRouters() {
+        // 获取当前用户的ID
         Long userId = SecurityUtils.getUserId();
+        // 根据用户ID查询该用户有权限访问的菜单树
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
+        // 构建菜单，转为前端所需要的路由格式，并返回成功的结果
         return AjaxResult.success(menuService.buildMenus(menus));
     }
 }
