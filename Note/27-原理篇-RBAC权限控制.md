@@ -213,5 +213,178 @@ A(前端请求) --> B[获取当前登录用户id]
 
 1. 用户登录成功后，通过路由 `router/index.js` 跳转到首页，并加载 layout 布局组件。
 2. 在 `layout/index.vue` 中加载 sidbar 侧边栏；
-3. 在 `layout/components/Sidebar/index.vue` 中，遍历动态路由菜单在页面显示；
+3. 在 `layout/components/Sidebar/index.vue` 中，遍历动态路由菜单，在页面显示；
 4. 用户点击菜单后，会根据路由的 path，跳转到对应的视图组件在 `<app-main />` 显示
+
+## 七、权限注解
+
+在若依框架中，权限的验证，核心的是使用 Spring Security 提供的权限注解 `@PreAuthorize`。
+
+- `@PreAuthorize` 是 Spring Security 框架中，提供的一个安全注解，用于实现基于注解的访问控制。
+  - 它允许开发者在**方法级别**上声明特定的安全约束，以确保只有满足指定条件的用户，才能调用该方法。
+
+  - 当该注解被应用于某个方法时，Spring Security 在该方法执行前，会先对当前用户，进行权限检查。
+    - 如果检查通过，方法调用得以继续；
+
+    - 否则，框架会抛出相应的权限异常（如 `AccessDeniedException`），阻止方法执行。
+
+
+比如下方代码：
+
+dkd-manage/src/main/java/com/dkd/manage/controller/TaskTypeController.java
+
+```java
+/**
+ * 查询工单类型列表
+ */
+@PreAuthorize("@ss.hasPermi('manage:taskType:list')")
+@GetMapping("/list")
+public TableDataInfo list(TaskType taskType) {
+    startPage();
+    List<TaskType> list = taskTypeService.selectTaskTypeList(taskType);
+    return getDataTable(list);
+}
+```
+
+- `@PreAuthorize` 是 Spring Security 框架的权限注解，在执行方法前执行。
+
+- `@ss.hasPermi('manage:order:list')`，其中的：
+  - `@ss` 是指的一个 spring 管理的 bean
+    - 位置：ruoyi-framework 模块中的 `com.ruoyi.framework.web.service.PermissionService`
+  - `hasPermi` 是 `PermissionService` 类中的一个方法，判断是否拥有该权限。
+  - `manage:taskType:list` 为方法的参数。
+
+dkd-framework/src/main/java/com/dkd/framework/web/service/PermissionService.java
+
+```java
+/**
+ * RuoYi首创 自定义权限实现，ss取自SpringSecurity首字母
+ *
+ * @author ruoyi
+ */
+@Service("ss")
+public class PermissionService {
+
+    /**
+     * 检查用户是否拥有指定的权限
+     *
+     * @param permission 待检查的权限字符串
+     * @return 如果用户拥有指定的权限，则返回true；否则返回false
+     */
+    public boolean hasPermi(String permission) {
+            // 检查传入的权限字符串是否为空
+            if (StringUtils.isEmpty(permission)) {
+                return false;
+            }
+
+            // 获取当前登录的用户信息
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+
+            // 检查登录用户是否存在以及用户权限列表是否为空
+            if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) {
+                return false;
+            }
+
+            // 将权限字符串设置到权限上下文中，用于后续的权限检查
+            PermissionContextHolder.setContext(permission);
+
+            // 调用方法检查用户权限列表中是否包含指定的权限
+            return hasPermissions(loginUser.getPermissions(), permission);
+    }
+  
+   // ……
+}
+```
+
+权限控制流程如下：
+
+```mermaid
+graph TD
+A(LoginUser) -->|基本信息| B[zetian]
+    A -->|角色集合| C[admin]
+    A -->|权限集合| D[*:*:*]
+```
+
+```mermaid
+graph TD
+A(查询订单列表) --> B(@Preauthorize注解拦截)
+    B -->|@PreAuthorize（“@ss.hasPermi（“manage:taskType”）”）| C[获取当前登录用户信息]
+    C --> D{判断当前权限是否登录用户的权限列表中}
+    D -->|否| E(权限不足)
+    D -->|否| F(放行)
+```
+
+### 7.1.权限方法
+
+`@ss` 注解，要求接口拥有用户某些权限才可访问，它拥有如下方法：
+
+| 方法        | 参数   | 描述                                           |
+| ----------- | ------ | ---------------------------------------------- |
+| hasPermi    | String | 验证用户是否具备某权限                         |
+| lacksPermi  | String | 验证用户是否不具备某权限，与 hasPermi 逻辑相反 |
+| hasAnyPermi | String | 验证用户是否具有以下任意一个权限               |
+| hasRole     | String | 判断用户是否拥有某个角色                       |
+| lacksRole   | String | 验证用户是否不具备某角色，与 hasRole 逻辑相反  |
+| hasAnyRoles | String | 验证用户是否具有以下任意一个角色，多个逗号分隔 |
+
+权限方法使用示例：
+
+#### 7.1.1.在注解中使用
+
+数据权限示例。
+
+```java
+// 符合 system:user:list 权限要求
+@PreAuthorize("@ss.hasPermi('system:user:list')")
+
+// 不符合 system:user:list 权限要求
+@PreAuthorize("@ss.lacksPermi('system:user:list')")
+
+// 符合 system:user:add 或 system:user:edit 权限要求即可
+@PreAuthorize("@ss.hasAnyPermi('system:user:add,system:user:edit')")
+```
+
+角色权限示例。
+
+```java
+// 属于 user 角色
+@PreAuthorize("@ss.hasRole('user')")
+
+// 不属于 user 角色
+@PreAuthorize("@ss.lacksRole('user')")
+
+// 属于 user 或者 admin 之一
+@PreAuthorize("@ss.hasAnyRoles('user,admin')")
+```
+
+#### 7.1.2.编程式的使用
+
+数据权限示例。
+
+```java
+if (SecurityUtils.hasPermi("sys:user:edit")) {
+    System.out.println("当前用户有编辑用户权限");
+}
+```
+
+角色权限示例。
+
+```java
+if (SecurityUtils.hasRole("admin")) {
+    System.out.println("当前用户有admin角色权限");
+}
+```
+
+#### 7.1.3.公开接口
+
+如果有些接口，不需要验证权限，可以公开访问，只需要加 `@Anonymous` 注解即可。
+
+```java
+// @PreAuthorize("@ss.xxxx('....')") 注释或删除掉原有的权限注解
+@Anonymous
+@GetMapping("/list")
+public List<SysXxxx> list(SysXxxx xxxx) {
+    return xxxxList;
+}
+```
+

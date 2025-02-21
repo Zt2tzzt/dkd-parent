@@ -2,6 +2,7 @@ package com.dkd.manage.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +24,13 @@ import com.dkd.common.core.page.TableDataInfo;
 
 /**
  * 工单类型Controller
- * 
+ *
  * @author zetian
  * @date 2024-12-23
  */
 @RestController
 @RequestMapping("/manage/taskType")
-public class TaskTypeController extends BaseController
-{
+public class TaskTypeController extends BaseController {
     @Autowired
     private ITaskTypeService taskTypeService;
 
@@ -39,8 +39,7 @@ public class TaskTypeController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:taskType:list')")
     @GetMapping("/list")
-    public TableDataInfo list(TaskType taskType)
-    {
+    public TableDataInfo list(TaskType taskType) {
         startPage();
         List<TaskType> list = taskTypeService.selectTaskTypeList(taskType);
         return getDataTable(list);
@@ -52,8 +51,7 @@ public class TaskTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:taskType:export')")
     @Log(title = "工单类型", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, TaskType taskType)
-    {
+    public void export(HttpServletResponse response, TaskType taskType) {
         List<TaskType> list = taskTypeService.selectTaskTypeList(taskType);
         ExcelUtil<TaskType> util = new ExcelUtil<TaskType>(TaskType.class);
         util.exportExcel(response, list, "工单类型数据");
@@ -64,8 +62,7 @@ public class TaskTypeController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:taskType:query')")
     @GetMapping(value = "/{typeId}")
-    public AjaxResult getInfo(@PathVariable("typeId") Long typeId)
-    {
+    public AjaxResult getInfo(@PathVariable("typeId") Long typeId) {
         return success(taskTypeService.selectTaskTypeByTypeId(typeId));
     }
 
@@ -75,8 +72,7 @@ public class TaskTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:taskType:add')")
     @Log(title = "工单类型", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody TaskType taskType)
-    {
+    public AjaxResult add(@RequestBody TaskType taskType) {
         return toAjax(taskTypeService.insertTaskType(taskType));
     }
 
@@ -86,8 +82,7 @@ public class TaskTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:taskType:edit')")
     @Log(title = "工单类型", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody TaskType taskType)
-    {
+    public AjaxResult edit(@RequestBody TaskType taskType) {
         return toAjax(taskTypeService.updateTaskType(taskType));
     }
 
@@ -96,9 +91,8 @@ public class TaskTypeController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:taskType:remove')")
     @Log(title = "工单类型", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{typeIds}")
-    public AjaxResult remove(@PathVariable Long[] typeIds)
-    {
+    @DeleteMapping("/{typeIds}")
+    public AjaxResult remove(@PathVariable Long[] typeIds) {
         return toAjax(taskTypeService.deleteTaskTypeByTypeIds(typeIds));
     }
 }
