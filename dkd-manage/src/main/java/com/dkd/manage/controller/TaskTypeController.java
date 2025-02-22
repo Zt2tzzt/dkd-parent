@@ -26,7 +26,6 @@ import com.dkd.common.core.page.TableDataInfo;
  * 工单类型Controller
  *
  * @author zetian
- * @date 2024-12-23
  */
 @RestController
 @RequestMapping("/manage/taskType")
