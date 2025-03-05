@@ -88,12 +88,12 @@ A(登录请求) -->B{验证码校验}
 > ```yaml
 > # token配置
 > token:
->   # 令牌自定义标识
->   header: Authorization
->   # 令牌密钥
->   secret: xxxxxx
->   # 令牌有效期（默认30分钟）
->   expireTime: 30
+>     # 令牌自定义标识
+>     header: Authorization
+>     # 令牌密钥
+>     secret: xxxxxx
+>     # 令牌有效期（默认30分钟）
+>     expireTime: 30
 > ```
 
 ## 三、用户的角色和权限
@@ -225,9 +225,9 @@ A(前端请求) --> B[获取当前登录用户id]
 在若依框架中，权限的验证，核心是使用 Spring Security 提供的权限注解 `@PreAuthorize`。
 
 - `@PreAuthorize` 是 Spring Security 框架中，提供的一个安全注解，用于实现基于注解的访问控制。
-  - 它允许开发者在**方法级别**上声明特定的安全约束，以确保只有满足指定条件的用户，才能调用该方法。
+  - 它允许开发者在**方法级别**上，声明特定的安全约束，以确保只有满足指定条件的用户，才能调用该方法。
 
-  - 当该注解被应用于某个方法时，Spring Security 在该方法执行前，会先对当前用户，进行权限检查。
+  - 当该注解，被应用于某个方法时，Spring Security 在该方法执行前，会先对当前用户，进行权限检查。
     - 如果检查通过，方法调用得以继续；
 
     - 否则，框架会抛出相应的权限异常（如 `AccessDeniedException`），阻止方法执行。
