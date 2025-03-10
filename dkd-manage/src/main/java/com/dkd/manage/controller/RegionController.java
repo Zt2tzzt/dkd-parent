@@ -25,14 +25,13 @@ import com.dkd.common.core.page.TableDataInfo;
 
 /**
  * 区域管理Controller
- * 
+ *
  * @author zetian
  * @date 2024-12-01
  */
 @RestController
 @RequestMapping("/manage/region")
-public class RegionController extends BaseController
-{
+public class RegionController extends BaseController {
     @Autowired
     private IRegionService regionService;
 
@@ -41,8 +40,7 @@ public class RegionController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:region:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Region region)
-    {
+    public TableDataInfo list(Region region) {
         startPage();
         List<RegionVO> list = regionService.regionVoList(region);
         return getDataTable(list);
@@ -54,8 +52,7 @@ public class RegionController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:region:export')")
     @Log(title = "区域管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Region region)
-    {
+    public void export(HttpServletResponse response, Region region) {
         List<Region> list = regionService.selectRegionList(region);
         ExcelUtil<Region> util = new ExcelUtil<Region>(Region.class);
         util.exportExcel(response, list, "区域管理数据");
@@ -66,8 +63,7 @@ public class RegionController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:region:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(regionService.selectRegionById(id));
     }
 
@@ -77,8 +73,7 @@ public class RegionController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:region:add')")
     @Log(title = "区域管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Region region)
-    {
+    public AjaxResult add(@RequestBody Region region) {
         return toAjax(regionService.insertRegion(region));
     }
 
@@ -88,8 +83,7 @@ public class RegionController extends BaseController
     @PreAuthorize("@ss.hasPermi('manage:region:edit')")
     @Log(title = "区域管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Region region)
-    {
+    public AjaxResult edit(@RequestBody Region region) {
         return toAjax(regionService.updateRegion(region));
     }
 
@@ -98,9 +92,8 @@ public class RegionController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('manage:region:remove')")
     @Log(title = "区域管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(regionService.deleteRegionByIds(ids));
     }
 }
