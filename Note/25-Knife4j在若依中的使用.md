@@ -43,11 +43,11 @@ const url = ref(import.meta.env.VITE_APP_BASE_API + '/doc.html')
 
 为 `TaskDetailsController.java` 控制器类里的方法，生成接口文档。
 
-> 注意：因为若依框架的 `AjaxResult` 类继承自 `HashMap` 类，导致与 Swagger 和 knife4j 不兼容；
+> 注意：因为若依框架的 `AjaxResult` 类，继承自 `HashMap` 类，导致与 Swagger 和 knife4j 不兼容；
 >
 > 观察 dkd-admin/src/main/java/com/dkd/web/controller/tool/TestController.java 中的做法，可知：
 >
-> 将返回值类型替换为若依框架的 `R` 类，可解决 Swagger 解析问题，减少整体改动量。
+> 将返回值类型，替换为若依框架的 `R` 类，可解决 Swagger 解析问题，减少整体改动量。
 
 dkd-manage/src/main/java/com/dkd/manage/controller/TaskDetailsController.java
 
@@ -277,4 +277,4 @@ ruoyi:
   name: Zetian
 ```
 
-> 推荐用于集成第三方支付的框架：[elegent-pay](https://gitee.com/myelegent/elegent-pay)
+> 推荐一个用于集成第三方支付的框架：[elegent-pay](https://gitee.com/myelegent/elegent-pay)

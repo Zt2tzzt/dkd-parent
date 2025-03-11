@@ -12,7 +12,7 @@ import com.dkd.common.core.domain.BaseEntity;
 
 /**
  * 商品管理对象 sku
- * 
+ *
  * @author zetian
  * @date 2024-12-15
  */
@@ -20,132 +20,138 @@ import com.dkd.common.core.domain.BaseEntity;
 @ColumnWidth(16) // 列的宽度
 @HeadRowHeight(14) // 表头行的高度
 @HeadFontStyle(fontHeightInPoints = 11) // 表头行的字体
-public class Sku extends BaseEntity
-{
+public class Sku extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 主键 */
+    /**
+     * 主键
+     */
     private Long skuId;
 
-    /** 商品名称 */
+    /**
+     * 商品名称
+     */
     @Excel(name = "商品名称")
     @ExcelProperty("商品名称")
     private String skuName;
 
-    /** 商品图片 */
+    /**
+     * 商品图片
+     */
     @Excel(name = "商品图片")
     @ExcelProperty("商品图片")
     private String skuImage;
 
-    /** 品牌 */
+    /**
+     * 品牌
+     */
     @Excel(name = "品牌")
     @ExcelProperty("品牌")
     private String brandName;
 
-    /** 规格(净含量) */
+    /**
+     * 规格(净含量)
+     */
     @Excel(name = "规格(净含量)")
     @ExcelProperty("规格(净含量)")
     private String unit;
 
-    /** 商品价格，单位分 */
+    /**
+     * 商品价格，单位分
+     */
     @Excel(name = "商品价格，单位分")
     @ExcelProperty("商品价格，单位分")
     private Long price;
 
-    /** 商品类型Id */
+    /**
+     * 商品类型Id
+     */
     @Excel(name = "商品类型Id")
     @ExcelProperty("商品类型Id")
     private Long classId;
 
-    /** 是否打折促销 */
+    /**
+     * 是否打折促销
+     */
     private Integer isDiscount;
 
-    public void setSkuId(Long skuId) 
-    {
+    public void setSkuId(Long skuId) {
         this.skuId = skuId;
     }
 
-    public Long getSkuId() 
-    {
+    public Long getSkuId() {
         return skuId;
     }
-    public void setSkuName(String skuName) 
-    {
+
+    public void setSkuName(String skuName) {
         this.skuName = skuName;
     }
 
-    public String getSkuName() 
-    {
+    public String getSkuName() {
         return skuName;
     }
-    public void setSkuImage(String skuImage) 
-    {
+
+    public void setSkuImage(String skuImage) {
         this.skuImage = skuImage;
     }
 
-    public String getSkuImage() 
-    {
+    public String getSkuImage() {
         return skuImage;
     }
-    public void setBrandName(String brandName) 
-    {
+
+    public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
 
-    public String getBrandName() 
-    {
+    public String getBrandName() {
         return brandName;
     }
-    public void setUnit(String unit) 
-    {
+
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
-    public String getUnit() 
-    {
+    public String getUnit() {
         return unit;
     }
-    public void setPrice(Long price) 
-    {
+
+    public void setPrice(Long price) {
         this.price = price;
     }
 
-    public Long getPrice() 
-    {
+    public Long getPrice() {
         return price;
     }
-    public void setClassId(Long classId) 
-    {
+
+    public void setClassId(Long classId) {
         this.classId = classId;
     }
 
-    public Long getClassId() 
-    {
+    public Long getClassId() {
         return classId;
     }
-    public void setIsDiscount(Integer isDiscount) 
-    {
+
+    public void setIsDiscount(Integer isDiscount) {
         this.isDiscount = isDiscount;
     }
 
-    public Integer getIsDiscount() 
-    {
+    public Integer getIsDiscount() {
         return isDiscount;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("skuId", getSkuId())
-            .append("skuName", getSkuName())
-            .append("skuImage", getSkuImage())
-            .append("brandName", getBrandName())
-            .append("unit", getUnit())
-            .append("price", getPrice())
-            .append("classId", getClassId())
-            .append("isDiscount", getIsDiscount())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("skuId", getSkuId())
+                .append("skuName", getSkuName())
+                .append("skuImage", getSkuImage())
+                .append("brandName", getBrandName())
+                .append("unit", getUnit())
+                .append("price", getPrice())
+                .append("classId", getClassId())
+                .append("isDiscount", getIsDiscount())
+                .append("createTime", getCreateTime())
+                .append("updateTime", getUpdateTime())
+                .toString();
     }
 }

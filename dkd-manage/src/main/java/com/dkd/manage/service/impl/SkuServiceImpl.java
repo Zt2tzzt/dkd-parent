@@ -13,13 +13,12 @@ import com.dkd.manage.service.ISkuService;
 
 /**
  * 商品管理Service业务层处理
- * 
+ *
  * @author zetian
  * @date 2024-12-15
  */
 @Service
-public class SkuServiceImpl implements ISkuService 
-{
+public class SkuServiceImpl implements ISkuService {
     @Autowired
     private SkuMapper skuMapper;
     @Autowired
@@ -27,63 +26,58 @@ public class SkuServiceImpl implements ISkuService
 
     /**
      * 查询商品管理
-     * 
+     *
      * @param skuId 商品管理主键
      * @return 商品管理
      */
     @Override
-    public Sku selectSkuBySkuId(Long skuId)
-    {
+    public Sku selectSkuBySkuId(Long skuId) {
         return skuMapper.selectSkuBySkuId(skuId);
     }
 
     /**
      * 查询商品管理列表
-     * 
+     *
      * @param sku 商品管理
      * @return 商品管理
      */
     @Override
-    public List<Sku> selectSkuList(Sku sku)
-    {
+    public List<Sku> selectSkuList(Sku sku) {
         return skuMapper.selectSkuList(sku);
     }
 
     /**
      * 新增商品管理
-     * 
+     *
      * @param sku 商品管理
      * @return 结果
      */
     @Override
-    public int insertSku(Sku sku)
-    {
+    public int insertSku(Sku sku) {
         sku.setCreateTime(DateUtils.getNowDate());
         return skuMapper.insertSku(sku);
     }
 
     /**
      * 修改商品管理
-     * 
+     *
      * @param sku 商品管理
      * @return 结果
      */
     @Override
-    public int updateSku(Sku sku)
-    {
+    public int updateSku(Sku sku) {
         sku.setUpdateTime(DateUtils.getNowDate());
         return skuMapper.updateSku(sku);
     }
 
     /**
      * 批量删除商品管理
-     * 
+     *
      * @param skuIds 需要删除的商品管理主键
      * @return 结果
      */
     @Override
-    public int deleteSkuBySkuIds(Long[] skuIds)
-    {
+    public int deleteSkuBySkuIds(Long[] skuIds) {
         // 1.判断商品的 id 集合，是否有关联货道
         if (channelMapper.selectChannelBySKuIds(skuIds) > 0)
             throw new ServiceException("此商品被货道关联，无法删除");
@@ -93,18 +87,18 @@ public class SkuServiceImpl implements ISkuService
 
     /**
      * 删除商品管理信息
-     * 
+     *
      * @param skuId 商品管理主键
      * @return 结果
      */
     @Override
-    public int deleteSkuBySkuId(Long skuId)
-    {
+    public int deleteSkuBySkuId(Long skuId) {
         return skuMapper.deleteSkuBySkuId(skuId);
     }
 
     /**
      * 此方法用于：批量插入商品
+     *
      * @param list 插入的数据
      * @return int
      */

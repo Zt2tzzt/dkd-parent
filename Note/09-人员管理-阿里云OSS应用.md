@@ -1,6 +1,6 @@
 # 人员管理之阿里云 OSS 应用
 
-在若依框架目前的实现中，默认把图片存储到服务器本地的目录，通过后端服服务进行访问，
+在若依框架目前的实现中，默认把图片存储到服务器本地的目录，通过后端服务进行访问，
 
 这样做存储比较省事，但缺点也有很多：
 
@@ -68,7 +68,8 @@ dkd-common/pom.xml
     <artifactId>aliyun-sdk-oss</artifactId>
     <version>3.17.4</version>
 </dependency>
-<!-- 以下三个坐标，若依默认集成了，不导入仪可以-->
+
+<!-- 以下三个坐标，若依默认集成了，不导入也可以-->
 <dependency>
     <groupId>javax.xml.bind</groupId>
     <artifactId>jaxb-api</artifactId>
@@ -162,8 +163,7 @@ dkd-admin/src/main/java/com/dkd/DkdApplication.java
 ```java
 @EnableFileStorage
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-public class DkdApplication
-{
+public class DkdApplication {
   ……
 }
 ```
@@ -177,10 +177,8 @@ dkd-admin/src/main/java/com/dkd/web/controller/common/CommonController.java
  * 通用上传请求（单个）
  */
 @PostMapping("/upload")
-public AjaxResult uploadFile(MultipartFile file) throws Exception
-{
-    try
-    {
+public AjaxResult uploadFile(MultipartFile file) throws Exception {
+    try {
         // 上传文件路径
         String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称
@@ -193,8 +191,7 @@ public AjaxResult uploadFile(MultipartFile file) throws Exception
         ajax.put("originalFilename", file.getOriginalFilename());
         return ajax;
     }
-    catch (Exception e)
-    {
+    catch (Exception e) {
         return AjaxResult.error(e.getMessage());
     }
 }
@@ -217,10 +214,8 @@ private FileStorageService fileStorageService;//注入实列
  * 通用上传请求（单个）
  */
 @PostMapping("/upload")
-public AjaxResult uploadFile(MultipartFile file) throws Exception
-{
-    try
-    {
+public AjaxResult uploadFile(MultipartFile file) throws Exception {
+    try {
         // 上传文件路径
         //String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称
@@ -231,7 +226,7 @@ public AjaxResult uploadFile(MultipartFile file) throws Exception
         String objectName = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "/";
 
         FileInfo fileInfo = fileStorageService.of(file)
-                .setPath(objectName) //保存到相对路径下，为了方便管理，不需要可以不写
+                .setPath(objectName) // 保存到相对路径下，为了方便管理，不需要可以不写
                 .upload();
 
         AjaxResult ajax = AjaxResult.success();
@@ -241,8 +236,7 @@ public AjaxResult uploadFile(MultipartFile file) throws Exception
         ajax.put("originalFilename", file.getOriginalFilename());
         return ajax;
     }
-    catch (Exception e)
-    {
+    catch (Exception e) {
         return AjaxResult.error(e.getMessage());
     }
 }

@@ -17,7 +17,7 @@ public interface ITaskDetailsService {
      * @param detailsId 工单详情主键
      * @return 工单详情
      */
-    public TaskDetails selectTaskDetailsByDetailsId(Long detailsId);
+    TaskDetails selectTaskDetailsByDetailsId(Long detailsId);
 
     /**
      * 查询工单详情列表
@@ -25,7 +25,7 @@ public interface ITaskDetailsService {
      * @param taskDetails 工单详情
      * @return 工单详情集合
      */
-    public List<TaskDetails> selectTaskDetailsList(TaskDetails taskDetails);
+    List<TaskDetails> selectTaskDetailsList(TaskDetails taskDetails);
 
     /**
      * 新增工单详情
@@ -33,7 +33,7 @@ public interface ITaskDetailsService {
      * @param taskDetails 工单详情
      * @return 结果
      */
-    public int insertTaskDetails(TaskDetails taskDetails);
+    int insertTaskDetails(TaskDetails taskDetails);
 
     /**
      * 批量新增工单详情
@@ -49,7 +49,7 @@ public interface ITaskDetailsService {
      * @param taskDetails 工单详情
      * @return 结果
      */
-    public int updateTaskDetails(TaskDetails taskDetails);
+    int updateTaskDetails(TaskDetails taskDetails);
 
     /**
      * 批量删除工单详情
@@ -57,7 +57,7 @@ public interface ITaskDetailsService {
      * @param detailsIds 需要删除的工单详情主键集合
      * @return 结果
      */
-    public int deleteTaskDetailsByDetailsIds(Long[] detailsIds);
+    int deleteTaskDetailsByDetailsIds(Long[] detailsIds);
 
     /**
      * 删除工单详情信息
@@ -65,5 +65,5 @@ public interface ITaskDetailsService {
      * @param detailsId 工单详情主键
      * @return 结果
      */
-    public int deleteTaskDetailsByDetailsId(Long detailsId);
+    int deleteTaskDetailsByDetailsId(Long detailsId);
 }
